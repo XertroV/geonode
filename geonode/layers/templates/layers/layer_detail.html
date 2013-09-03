@@ -19,10 +19,14 @@
 {% block body_class %}data{% endblock %}
 
 {% block body_outer %}
-  <div class="span5">
+  <div class="span6">
     <h2 class="page-title">{{ layer.title|default:layer.typename }}</h2>
   </div>
-  <div class="span7 action-group">
+  <div class="span6 action-group">
+	<div class="btn-group">
+	  <!-- permalink -->
+	  <a class="btn pull-left" href="/layers/id/{{ layer.id }}">Permalink</a>
+	</div>
     <div class="btn-group pull-right">
       <!-- download layer -->
       <div class="btn-group">

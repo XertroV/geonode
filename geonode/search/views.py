@@ -38,6 +38,7 @@ from geonode.search.query import BadQuery
 
 from datetime import datetime
 from time import time
+from copy import deepcopy
 import json
 import cPickle as pickle
 import operator
@@ -72,7 +73,23 @@ def search_page(request, template='search/search.html', **kw):
 
     total = 0
     for val in facets.values(): total+=val
+    total_featured = total
     total -= facets['raster'] + facets['vector']
+    featured_results = deepcopy(results)
+    for r in featured_results:
+        try:
+            if not r.o.featured:
+                total_featured -= 1
+                try:
+                    featured_results.remove(r)
+                except:
+                    pass
+        except:
+            break
+
+    return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
+        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
+
     return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
         'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
 

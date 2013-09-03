@@ -104,6 +104,8 @@ class Layer(ResourceBase):
     default_style = models.ForeignKey(Style, related_name='layer_default_style', null=True, blank=True)
     styles = models.ManyToManyField(Style, related_name='layer_styles')
 
+    featured = models.BooleanField(default=False)
+
     def update_thumbnail(self, save=True):
         self.save_thumbnail(self._thumbnail_url(width=198, height=98), save)
 

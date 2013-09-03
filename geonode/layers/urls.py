@@ -32,6 +32,7 @@ urlpatterns = patterns(
     url(r'^resolve_user/?$', 'resolve_user', name='layer_resolve_user'),
     url(r'^upload$', 'layer_upload', name='layer_upload'),
     url(r'^download$', 'layer_batch_download', name='layer_batch_download'),
+    url(r'^id/(?P<layerid>\d{1,})$', 'layer_detail_from_id', name='layer_detail_from_id'),
     url(r'^(?P<layername>[^/]*)$', 'layer_detail', name="layer_detail"),
     url(r'^(?P<layername>[^/]*)/metadata$', 'layer_metadata',
         name="layer_metadata"),

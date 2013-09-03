@@ -27,6 +27,7 @@ from geonode.documents.forms import DocumentForm
 IMGTYPES = ['jpg','jpeg','tif','tiff','png','gif']
 
 ALLOWED_DOC_TYPES = settings.ALLOWED_DOCUMENT_TYPES
+VIDEO_DOC_TYPES = settings.VIDEO_DOCUMENT_TYPES
 
 DOCUMENT_LEV_NAMES = {
     Document.LEVEL_NONE  : _('No Permissions'),
@@ -88,7 +89,8 @@ def document_detail(request, docid):
         'permissions_json': json.dumps(_perms_info(document, DOCUMENT_LEV_NAMES)),
         'document': document,
         'imgtypes': IMGTYPES,
-        'related': related
+        'vidtypes': VIDEO_DOC_TYPES,
+        'related': related,
     }))
 
 def document_download(request, docid):

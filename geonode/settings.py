@@ -146,10 +146,13 @@ LOGOUT_URL = '/account/logout/'
 
 # Activate the Documents application
 DOCUMENTS_APP = True
+VIDEO_DOCUMENT_TYPES = [
+    'ogv', 'webm', 'mp4', '3gp'
+]
 ALLOWED_DOCUMENT_TYPES = [
     'doc', 'docx', 'xls', 'xslx', 'pdf', 'zip', 'jpg', 'jpeg', 'tif', 'tiff', 'png', 'gif', 'txt'
-]
-MAX_DOCUMENT_SIZE = 2 # MB
+] + VIDEO_DOCUMENT_TYPES
+MAX_DOCUMENT_SIZE = 20 # MB
 
 
 INSTALLED_APPS = (

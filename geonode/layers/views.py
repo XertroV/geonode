@@ -91,6 +91,13 @@ def _resolve_layer(request, typename, permission='layers.change_layer',
     return resolve_object(request, Layer, {'typename':typename},
                           permission = permission, permission_msg=msg, **kwargs)
 
+def _resolve_layer_from_id(request, layerid, permission='layers.change_layer',
+                   msg=_PERMISSION_MSG_GENERIC, **kwargs):
+    '''
+    Resolve the layer by the provided id and check the optional permission.
+    '''
+    return resolve_object(request, Layer, {'id':layerid},
+                          permission = permission, permission_msg=msg, **kwargs)
 
 #### Basic Layer Views ####
 
@@ -170,6 +177,31 @@ def layer_upload(request, template='upload/layer_upload.html'):
         else:
             status_code = 500
         return HttpResponse(json.dumps(out), mimetype='application/json', status=status_code)
+
+def layer_detail_from_id(request, layerid, template='layers/layer_detail.html'):
+    layer = _resolve_layer_from_id(request, layerid, 'layers.view_layer', _PERMISSION_MSG_VIEW)
+
+    maplayer = GXPLayer(name = layer.typename, ows_url = ogc_server_settings.LOCATION + "wms", layer_params=json.dumps( layer.attribute_config()))
+
+    layer.srid_url = "http://www.spatialreference.org/ref/" + layer.srid.replace(':','/').lower() + "/"
+
+    signals.pre_save.disconnect(geoserver_pre_save, sender=Layer)
+    signals.post_save.disconnect(geoserver_post_save, sender=Layer)
+    layer.popular_count += 1
+    layer.save()
+    signals.pre_save.connect(geoserver_pre_save, sender=Layer)
+    signals.post_save.connect(geoserver_post_save, sender=Layer)
+
+    # center/zoom don't matter; the viewer will center on the layer bounds
+    map_obj = GXPMap(projection="EPSG:900913")
+    DEFAULT_BASE_LAYERS = default_map_config()[1]
+
+    return render_to_response(template, RequestContext(request, {
+        "layer": layer,
+        "viewer": json.dumps(map_obj.viewer_json(* (DEFAULT_BASE_LAYERS + [maplayer]))),
+        "permissions_json": _perms_info_json(layer, LAYER_LEV_NAMES),
+        "documents": get_related_documents(layer),
+    }))
 
 
 def layer_detail(request, layername, template='layers/layer_detail.html'):

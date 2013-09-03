@@ -83,7 +83,9 @@ class Map(ResourceBase, GXPMapBase):
 
     popular_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
-
+    
+    featured = models.BooleanField(default=False)
+    
     def __unicode__(self):
         return '%s by %s' % (self.title, (self.owner.username if self.owner else "<Anonymous>"))
 
