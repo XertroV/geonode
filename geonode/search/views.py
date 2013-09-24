@@ -78,13 +78,14 @@ def search_page(request, template='search/search.html', **kw):
     featured_results = deepcopy(results)
     torem = []
     if len(featured_results) > 0 and hasattr(featured_results[0], 'featured'):
-		for r in featured_results:
-			if not r.o.featured:
-				torem.append(r)
-			else:
-				total_featured += 1
-		for r in torem:
-			featured_results.remove(r)
+        for r in featured_results:
+            if not r.o.featured:
+                torem.append(r)
+        
+            else:
+                total_featured += 1
+        for r in torem:
+            featured_results.remove(r)
 
     return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
         'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
