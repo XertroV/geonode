@@ -63,9 +63,9 @@
       </div>
       {% elif document.extension|lower in vidtypes %}
         <video controls>
-          <source src="{{ document.doc_file.url }}">
+          <source src="{% url "document_download" document.id %}">
         </video>
-        <a href="{{ document.doc_file.url }}" target="_blank">Download the {{ document }} video</a>
+        <a href="{% url "document_download" document.id %}" target="_blank">Download the {{ document }} video</a>
       {% else %}
         <a href="{% url "document_download" document.id %}" target="_blank">Download the {{ document }} document</a>
       {%  endif %}

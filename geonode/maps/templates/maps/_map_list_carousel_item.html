@@ -6,10 +6,8 @@
 {% overall_rating map "map" as map_rating %} {% num_ratings map as num_votes %}
 <article class="featured-map-carousel">
   <div class="row">
-	<div class="span4">
-	  <div class="thumb featured-map-formatting"><a href="{% url "map_detail" map.id %}"><img src="{{ map.get_thumbnail_url }}" /></a></div>
-	</div>  
-	<div class="span4">
+	<div class="span4 carousel-thumb-background" style="background-image:url('{{ map.get_thumbnail_url }}');">
+	</div>
 	  <div class="featured-map-formatting">
 		<h3><i class="icon-map-marker"></i> <a href="{% url "map_detail" map.id %}">{{ map.title }}</a></h3>
 		<div class="details">
@@ -25,8 +23,6 @@
 			<a href="{% url "map_download" map.id %}" class="btn btn-mini">{% trans "Download" %}</a>
 			<a href="{% url "map_view" map.id %}" class="btn btn-mini">{% trans "View" %}</a>
 		  </p>
-		</div>   
-	  </div>
-	</div>  
+		</div> 
   </div>
 </article>

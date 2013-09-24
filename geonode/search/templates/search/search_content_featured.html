@@ -3,7 +3,7 @@
 <div class="tab-pane active list paginate-contents" id="all">
   <p>Total: {{ featured_object_list|length }}</p>
 {% if featured_object_list|length > 0 %}
-	{% autopaginate featured_object_list 4 %}
+	{% autopaginate featured_object_list 10 %}
 	{% for object in featured_object_list %}
 		{% if object.o.class_name == 'Layer' %}
 		  {% with object.o as layer %}
