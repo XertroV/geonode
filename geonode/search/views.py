@@ -73,25 +73,24 @@ def search_page(request, template='search/search.html', **kw):
 
     total = 0
     for val in facets.values(): total+=val
-    total_featured = total
     total -= facets['raster'] + facets['vector']
+    total_featured = total
+    total_featured = 0
     featured_results = deepcopy(results)
+    torem = []
     for r in featured_results:
-        try:
-            if not r.o.featured:
-                total_featured -= 1
-                try:
-                    featured_results.remove(r)
-                except:
-                    pass
-        except:
-            break
+        if not r.o.featured:
+            torem.append(r)
+        else:
+            total_featured += 1
+    for r in torem:
+        featured_results.remove(r)
 
     return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
         'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
 
-    return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
-        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
+    #return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
+    #    'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
 
 def advanced_search(request, **kw):
     

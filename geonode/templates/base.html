@@ -21,7 +21,7 @@
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body class="{% block body_class %}{% endblock %}">
+  <body class="{% block body_class %}{% endblock %}" id="sopacbody">
     {% block header %}
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -30,7 +30,7 @@
             <div class="span3">
               <a href="{% url "home" %}">
                 <span class="nav-logo">
-                  <a class="brand">{{ SITE_NAME }}</a>
+                  <!--<a class="brand">{{ SITE_NAME }}</a>-->
                 </span>
               </a>
             </div>
@@ -142,12 +142,12 @@
             </div>
           </div>
         </div>
-       </section>
+       <!--</section>-->
       </div>
     </div>
     {% endblock header %}
     {% block middle %}
-    <div class="content-wrap">
+    <div class="content-wrap" id="sopacmain-content">
         {% if site_wide_announcements %}
             <div id="site_wide_announcements">
                 {% for announcement in site_wide_announcements %}
@@ -155,7 +155,7 @@
                     <a type="button" class="close" data-dismiss="alert" href="{% url "announcement_hide" announcement.pk %}?next={{ request.path }}">×</button>
                     <h4><a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -</h4>
                     <div>{{ announcement.content }}</div>
-                    </div>
+                </div>
                 {% endfor %}
             </div>
         {% endif %}

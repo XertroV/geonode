@@ -1,0 +1,57 @@
+
+/*.hero-unit .btn {
+	background-color: #222222;
+}*/
+
+.hide-onload {
+	display: none;
+}
+
+.hero-unit .intro {
+	width: 100%;
+}
+
+#sopacbody .hero-unit {	
+	margin-bottom: 0px;
+}
+
+#main-carousel {
+	/*height: 200px;*/
+}
+
+.featured-map-carousel {
+	border-style: solid;
+	border-width: 1px;
+}
+
+.carousel-control {
+	font-size: 37px;
+}
+
+#mainintro h1 {
+	display: inline;
+}
+
+#sopacbody {
+	background-image: url(/static/img/bg.jpg);
+	background-position: 50% 0%;
+	background-repeat: repeat-x;
+	background-color: rgb(12, 58, 109);
+}
+
+#sopacmain-content {
+	background: #FFF;
+	padding-bottom: 30px;
+	margin-bottom: 0px;
+}
+
+.featured-map-carousel {
+	margin-left: 70px;
+	margin-right: 70px;
+	height:162px;
+}
+
+.featured-map-formatting {
+	display: inline;
+}
+

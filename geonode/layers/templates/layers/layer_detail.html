@@ -23,15 +23,12 @@
     <h2 class="page-title">{{ layer.title|default:layer.typename }}</h2>
   </div>
   <div class="span6 action-group">
-	<div class="btn-group">
-	  <!-- permalink -->
-	  <a class="btn pull-left" href="/layers/id/{{ layer.id }}">Permalink</a>
-	</div>
     <div class="btn-group pull-right">
       <!-- download layer -->
       <div class="btn-group">
+		<a class="btn btn-large btn-primary" href="/layers/id/{{ layer.id }}" title="Permalink"><i class="icon-link"></i></a>
         <a class="btn btn-large btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Download Layer" %}
+          <i class="icon-download-alt"></i> {% trans "Layer" %}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -43,7 +40,7 @@
       <!-- download metadata -->
       <div class="btn-group">
         <a class="btn btn-large btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Download Metadata" %}
+          <i class="icon-download-alt"></i> {% trans "Metadata" %}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
