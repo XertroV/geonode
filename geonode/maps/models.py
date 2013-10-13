@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 #########################################################################
 #
 # Copyright (C) 2012 OpenPlans
@@ -211,6 +212,7 @@ class Map(ResourceBase, GXPMapBase):
         url = "%srest/printng/render.png" % ogc_server_settings.LOCATION
         hostname = urlparse(settings.SITEURL).hostname
         params = dict(width=198, height=98, auth="%s,%s,%s" % (hostname, _user, _password))
+        #params = dict(width=600, height=300, auth="%s,%s,%s" % (hostname, _user, _password))
         url = url + "?" + urllib.urlencode(params)
         http.add_credentials(_user, _password)
         netloc = urlparse(url).netloc
