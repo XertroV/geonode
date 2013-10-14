@@ -35,6 +35,7 @@ from geonode.search.util import resolve_extension
 from geonode.search.normalizers import apply_normalizers
 from geonode.search.query import query_from_request
 from geonode.search.query import BadQuery
+from geonode.utils import ogc_server_settings
 
 from datetime import datetime
 from time import time
@@ -74,21 +75,18 @@ def search_page(request, template='search/search.html', **kw):
     total = 0
     for val in facets.values(): total+=val
     total -= facets['raster'] + facets['vector']
-    total_featured = 0
     featured_results = deepcopy(results)
     torem = []
-    if len(featured_results) > 0 and hasattr(featured_results[0], 'featured'):
+    if len(featured_results) > 0 and hasattr(featured_results[0].o, 'featured'):
         for r in featured_results:
             if not r.o.featured:
                 torem.append(r)
-        
-            else:
-                total_featured += 1
         for r in torem:
             featured_results.remove(r)
+    total_featured = len(featured_results)
 
     return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
-        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
+        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags, 'wmslink': ogc_server_settings.LOCATION + "wms"}))
 
     #return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
     #    'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))

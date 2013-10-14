@@ -34,21 +34,24 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 
 
 
-<img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
-
+        <img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
 <!--
 					<h1>{% trans "Welcome" %} to PIMMS</h1>
 -->
-					<span class="pull-right" style="margin-top: 14px">
+					<span class="pull-right btn-group" style="margin-top: 14px">
 						<a class="btn btn-large" href="{% url "about" %}" onclick="//showAbout();">
 							{% trans "About" %}
-						</a>
+						</a> 
 						<a class="btn btn-large" href="{% url "layer_browse" %}">
 							{% trans "Explore Layers" %}
 						</a>
 						<a class="btn btn-large" href="{% url "maps_browse" %}">
 							{% trans "Explore Maps" %}
-						</a></span>
+						</a>
+						<!--<a class="btn btn-large" href="{{ wmslink }}">
+							{% trans "WMS" %}
+						</a>-->
+          </span>
 
 <hr/>
 

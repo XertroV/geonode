@@ -178,32 +178,6 @@ def layer_upload(request, template='upload/layer_upload.html'):
             status_code = 500
         return HttpResponse(json.dumps(out), mimetype='application/json', status=status_code)
 
-def layer_detail_from_id(request, layerid, template='layers/layer_detail.html'):
-    layer = _resolve_layer_from_id(request, layerid, 'layers.view_layer', _PERMISSION_MSG_VIEW)
-
-    maplayer = GXPLayer(name = layer.typename, ows_url = ogc_server_settings.LOCATION + "wms", layer_params=json.dumps( layer.attribute_config()))
-
-    layer.srid_url = "http://www.spatialreference.org/ref/" + layer.srid.replace(':','/').lower() + "/"
-
-    signals.pre_save.disconnect(geoserver_pre_save, sender=Layer)
-    signals.post_save.disconnect(geoserver_post_save, sender=Layer)
-    layer.popular_count += 1
-    layer.save()
-    signals.pre_save.connect(geoserver_pre_save, sender=Layer)
-    signals.post_save.connect(geoserver_post_save, sender=Layer)
-
-    # center/zoom don't matter; the viewer will center on the layer bounds
-    map_obj = GXPMap(projection="EPSG:900913")
-    DEFAULT_BASE_LAYERS = default_map_config()[1]
-
-    return render_to_response(template, RequestContext(request, {
-        "layer": layer,
-        "viewer": json.dumps(map_obj.viewer_json(* (DEFAULT_BASE_LAYERS + [maplayer]))),
-        "permissions_json": _perms_info_json(layer, LAYER_LEV_NAMES),
-        "documents": get_related_documents(layer),
-    }))
-
-
 def layer_detail(request, layername, template='layers/layer_detail.html'):
     layer = _resolve_layer(request, layername, 'layers.view_layer', _PERMISSION_MSG_VIEW)
 
@@ -228,6 +202,10 @@ def layer_detail(request, layername, template='layers/layer_detail.html'):
         "permissions_json": _perms_info_json(layer, LAYER_LEV_NAMES),
         "documents": get_related_documents(layer),
     }))
+    
+def layer_detail_from_id(request, layerid, template='layers/layer_detail.html'):
+    layer = _resolve_layer_from_id(request, layerid, 'layers.view_layer', _PERMISSION_MSG_VIEW)
+    return layer_detail(request, layer.typename)
 
 
 @login_required
