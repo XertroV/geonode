@@ -62,3 +62,33 @@
 	display: inline;
 }
 
+#contribH2 {
+	text-align: right;
+	vertical-align: middle;
+}
+
+.control-buttons h2 {
+	text-align: right;
+	line-height: 18px;
+}
+
+.control-buttons .contrib-no-login {
+	text-align: center;
+}
+
+.border-right {
+	border-style: none;
+	border-right: 1px solid black;
+}
+.border-left {
+	border-style: none;
+	border-left: 1px solid black;
+}
+
+.list article p {
+	width: 320px;
+}
+
+.list article h3 {
+	min-width: 320px
+}

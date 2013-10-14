@@ -73,25 +73,56 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 
 					</div> <!-- all-the-carousel --> 
 					<div class="intro" id="mainIntroText">
+            <div align="center" class="pull-right">
+            <img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:165px; padding-left: 15px" />
+            </div>	  
 						<p align="justify" style="font-size: 16px !important">
-
-<b>PacGeo</b> started life as the <u>Pacific Island Marine Spatial Information System</u>, but since inception has broaden it's scope to be an all encompassing geospatial platform to catalogue, administer and expose geophysical, geodetic and specialist marine spatial data. The system was developed as a regional service in conjuction with Geoscience Australia (GA), SOPAC Division, the UNEP Shelf Programme, the University of Sydney and the Commonwealth Secretariat for provisioning easy access to jurisdictional information as well as other geophysical data in the Pacific.
-<hr/>
+            <b>PacGeo</b> started life as the <u>Pacific Island Marine Spatial Information System</u>, but since inception has broaden it's scope to be an all encompassing geospatial platform to catalogue, administer and expose geophysical, geodetic and specialist marine spatial data. The system was developed as a regional service in conjuction with Geoscience Australia (GA), SOPAC Division, the UNEP Shelf Programme, the University of Sydney and the Commonwealth Secretariat for provisioning easy access to jurisdictional information as well as other geophysical data in the Pacific.
 						</p>
-		
 					</div> <!-- intro --> 
-		        </div> <!-- mainintro --> 
+          <!--- &nbsp;-->
+          </div> <!-- mainintro --> 
 	        </div> <!-- hero-unit -->  
   {% endblock %}
 
   {% block mainbody %}
   <div class="row">
 	<div class="span12">
-	 
+          <hr />
 	</div> <!-- span12 --> 
   </div> <!-- row --> 
+  
+  <div class="row control-buttons">
+  <div class="span1"><h2>Show:</h2></div>
+  <div class="span4">
+        <div class="btn-group" style="text-align: center; width: 100%; ">
+          <a id="enableLatestButton" class='active btn btn-large' onclick='swapFeaturedLatest()'>Latest Data</a>
+          <a id="enableFeaturedButton" class='btn btn-large' onclick='swapFeaturedLatest()'>Featured Data</a>
+        </div>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="span2 border-left">
+      <h2>Contribute:</h2>
+    </div>
+    <div class="span2">
+          <a href="{% url "data_upload" %}" class="btn btn-large btn-block">{% trans 'Upload Layers' %}</a>
+    </div> <!-- span2 --> 
+    <div class="span2">
+         <a href="{% url "new_map" %}" class="btn btn-large btn-block">{% trans 'Create a Map' %}</a>
+    </div> <!-- span2 --> 
+  {% else %}
+    <div class="span6 border-left">
+      <h2 class="contrib-no-login">Log in to contribute.</h2>
+    </div>
+  {% endif %}
+  </div>
   <div class="row">
-    <div class="span8">
+  <div class="span12">
+          <hr /></div>
+  </div> <!-- row --> 
+        
+  <div class="row">
+    <div class="span6">
       <section id="latestLayers" class="widget list paginate-contents">
         <h2>{% trans "Latest Layers" %}</h2>
         <div class="paginate paginate-auto" id="search-content">
@@ -104,36 +135,30 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 	      {% include 'search/search_content_featured.html' %}
         </div> <!-- paginate --> 
       </section> <!-- featuredLayers --> 
-    </div> <!-- span8 --> 
-    <aside class="span4">
-
-<div align="center">
-<img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:200px" />
-</div>	  
-
-      <div class="pagination pagination-large" style="text-align: center">
-	    <ul>
-	      <li id="enableLatestButton" class='active'><a onclick='swapFeaturedLatest()'>Latest Data</a></li>
-	      <li id="enableFeaturedButton" ><a onclick='swapFeaturedLatest()'>Featured Data</a></li>
-	    </ul>
-	  </div> <!-- pagination --> 
-      {% if request.user.is_authenticated %}
-        <div class="well">
-          <section>
-            <h2>{% trans "Contribute" %}</h2>
-            <p class="main-actions">
-            {% blocktrans %}
-              GeoNode enables you to upload, manage, and browse data layers. Search for data that is valuable to you, or upload your own data. 
-            {% endblocktrans %}
-              <a href="{% url "data_upload" %}" class="btn btn-large">{% trans 'Upload Layers' %}</a>
-            {% blocktrans %}
-              GeoNode enables you to compose and share maps. Create a map with our cartography tool, or explore maps shared by others. 
-            {% endblocktrans %}
-              <a href="{% url "new_map" %}" class="btn btn-large">{% trans 'Create a Map' %}</a>
-            </p>
-          </section>
-        </div>
-      {% endif %}
+    </div> <!-- span6 -->
+     
+    <div class="span6">
+      <section id="latestMaps" class="widget list paginate-contents">
+        <h2>{% trans "Latest Maps" %}</h2>
+        <div class="paginate paginate-auto" id="search-content">
+          {% listed_maps as listed_maps %}
+          {% for map in listed_maps %}
+            {% include "maps/_map_list_item.html" %}
+          {% endfor %}
+        </div> <!-- paginate --> 
+      </section> <!-- latestLayers --> 
+      <section id="featuredMaps" class="widget list paginate-contents hide-onload">
+        <h2>{% trans "Featured Maps" %}</h2>
+        <div class="paginate paginate-auto" id="featured-content">
+          {% listed_maps as listed_maps %}
+          {% for map in listed_maps %}
+            {% if map.featured %}
+              {% include "maps/_map_list_item.html" %}
+            {% endif %}
+          {% endfor %}
+        </div> <!-- paginate --> 
+      </section> <!-- featuredLayers --> 
+      <!---
       <div id="latestMaps" class="well">
         <h2>{% trans "Latest Maps" %}</h2>
         <section class="article-list latest-maps">
@@ -153,8 +178,8 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
             {% endif %}
           {% endfor %}
         </section>
-      </div>
-    </aside>
+      </div> -->
+    </div>
   </div>
   {% endblock %}
 </div>
