@@ -4,10 +4,9 @@
 {% load base_tags %}
 
 {% overall_rating map "map" as map_rating %} {% num_ratings map as num_votes %}
-<article class="featured-map-carousel">
+<article style="border-style: none !important;" class="featured-map-carousel">
   <div class="row">
-	<div class="well" style="background-image:url('{{ map.get_thumbnail_url }}');">
-	<div class="span4 carousel-thumb-background" >
+	<div class="span4 carousel-thumb-background" style="background-image:url('{{ map.get_thumbnail_url }}');">
 	</div>
 	  <div class="featured-map-formatting">
 		<h3><i class="icon-map-marker"></i> <a href="{% url "map_detail" map.id %}">{{ map.title }}</a></h3>
@@ -25,6 +24,5 @@
 			<a href="{% url "map_view" map.id %}" class="btn btn-mini">{% trans "View" %}</a>
 		  </p>
 		</div> 
-	</div>
   </div>
 </article>

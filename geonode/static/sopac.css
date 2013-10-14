@@ -21,12 +21,14 @@
 
 .featured-map-carousel {
 	border-style: solid;
-	border-width: 0px;
+	border-width: 1px;
 }
 
 .carousel-thumb-background {
 	width: 300px;
-	height: 140px;
+	height: 150px;
+	background-size:100% 100%;
+	background-repeat:no-repeat;
 }
 
 .carousel-control {
@@ -54,16 +56,6 @@
 	margin-left: 70px;
 	margin-right: 70px;
 	height:162px;
-}
-
-.featured-map-carousel .row {
-	margin-left: 0px;
-	height: 162px;
-}
-
-.featured-map-carousel .row .well {
-	background-size:100%;
-	background-repeat:no-repeat;
 }
 
 .featured-map-formatting {

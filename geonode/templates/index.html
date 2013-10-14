@@ -6,18 +6,41 @@
 {% load staticfiles %}
 {% load url from future %}
 
-{% block title %} {% trans "Welcome!" %} - {{ block.super }} {% endblock %}
+{% block title %} PacGeo - Oceans and Islands Programme, Applied GeoScience and Technology Division, SPC {% endblock %}
 
 {% block body_class %}home{% endblock %}
 
 {% block body_outer %}
+
+<div style="margin-top: -20px; margin-bottom: 24px; color:white; height:22px; padding:6px; font-size: 24px; width: 100% !important; background-color: #025C90;" align="center">
+Applied GeoScience and Technology Division, Secretariat of the Pacific Community
+
+</div>
+
+
 <div class="span12">
+
+
+
 	{% block hero %} 
+
+
+
 			<div class="hero-unit">
+
+
+
 				<div id='mainintro'>
+
+
+
+<img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
+
+<!--
 					<h1>{% trans "Welcome" %} to PIMMS</h1>
-					<span class="pull-right">
-						<a class="btn btn-large" href="#" onclick="showAbout();">
+-->
+					<span class="pull-right" style="margin-top: 14px">
+						<a class="btn btn-large" href="{% url "about" %}" onclick="//showAbout();">
 							{% trans "About" %}
 						</a>
 						<a class="btn btn-large" href="{% url "layer_browse" %}">
@@ -26,6 +49,9 @@
 						<a class="btn btn-large" href="{% url "maps_browse" %}">
 							{% trans "Explore Maps" %}
 						</a></span>
+
+<hr/>
+
 					<div class="all-the-carousel">
 						<div id="main-carousel" class="carousel slide">  
 						  <div class="carousel-inner">
@@ -39,18 +65,17 @@
 						  <a class="carousel-control left" href="#main-carousel" data-slide="prev"><span class="icon-angle-left"></span></a>
 						  <a class="carousel-control right" href="#main-carousel" data-slide="next"><i class="icon-angle-right"></i></a>
 						</div> <!-- main-carousel --> 
+
+<hr style="margin-top: -30px"/>
+
 					</div> <!-- all-the-carousel --> 
-					<div class="intro hide-onload" id="mainIntroText">
-						<p align="justify">
-						{% blocktrans %}
-						
-						SOPAC GeoNode is a platform for the management and publication of SOPAC division's geospatial data. It brings together mature and stable open-source software projects under a consistent and easy-to-use interface allowing users, with little training, to quickly and easily share data and create interactive maps. GeoNode provides a cost-effective and scalable tool for managing geo-spatial information. For further details email <a href="datarequest@sopac.org">datarequest@sopac.org</a> 
-						<br/><br/>
-						SOPAC's core work program involves the production of a lot of geographical information systems output; and these are mostly some combination of digital maps and geo-referenced datasets. GIS specialists within the the work programmes utilize a diverse set of toolsets to create, manage, analyze and display geospatial data on digital maps, which are acquired from diverse sources.
-						
-						{% endblocktrans %}
+					<div class="intro" id="mainIntroText">
+						<p align="justify" style="font-size: 16px !important">
+
+<b>PacGeo</b> started life as the <u>Pacific Island Marine Spatial Information System</u>, but since inception has broaden it's scope to be an all encompassing geospatial platform to catalogue, administer and expose geophysical, geodetic and specialist marine spatial data. The system was developed as a regional service in conjuction with Geoscience Australia (GA), SOPAC Division, the UNEP Shelf Programme, the University of Sydney and the Commonwealth Secretariat for provisioning easy access to jurisdictional information as well as other geophysical data in the Pacific.
+<hr/>
 						</p>
-						<span>{% trans 'Need help' %} <a href="http://geonode.github.com/workshops/user">{% trans 'Getting Started?' %}</a></span>
+		
 					</div> <!-- intro --> 
 		        </div> <!-- mainintro --> 
 	        </div> <!-- hero-unit -->  
@@ -59,7 +84,7 @@
   {% block mainbody %}
   <div class="row">
 	<div class="span12">
-
+	 
 	</div> <!-- span12 --> 
   </div> <!-- row --> 
   <div class="row">
@@ -77,7 +102,12 @@
         </div> <!-- paginate --> 
       </section> <!-- featuredLayers --> 
     </div> <!-- span8 --> 
-    <aside class="span4">	  
+    <aside class="span4">
+
+<div align="center">
+<img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:200px" />
+</div>	  
+
       <div class="pagination pagination-large" style="text-align: center">
 	    <ul>
 	      <li id="enableLatestButton" class='active'><a onclick='swapFeaturedLatest()'>Latest Data</a></li>
