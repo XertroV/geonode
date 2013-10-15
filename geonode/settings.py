@@ -152,7 +152,7 @@ VIDEO_DOCUMENT_TYPES = [
 ALLOWED_DOCUMENT_TYPES = [
     'doc', 'docx', 'xls', 'xslx', 'pdf', 'zip', 'jpg', 'jpeg', 'tif', 'tiff', 'png', 'gif', 'txt'
 ] + VIDEO_DOCUMENT_TYPES
-MAX_DOCUMENT_SIZE = 20 # MB
+MAX_DOCUMENT_SIZE = 200 # MB
 
 
 INSTALLED_APPS = (

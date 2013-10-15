@@ -92,3 +92,36 @@
 .list article h3 {
 	min-width: 320px
 }
+
+.move-well-down {
+	padding-top: 9px;
+}
+
+aside .well h2 {
+	background-color: #464646;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.carousel-inner {
+	border-style: none;
+	border-top: 1px solid #EEE;
+	border-bottom: 1px solid #EEE;
+}
+
+.carousel-map {
+	margin: auto;
+	width: 600px;
+	border-style: none;
+	border-right: 1px solid #EEE;
+	border-left: 1px solid #EEE;
+	padding-left: 20px;
+	padding-right: 20px;
+	height: 100%;
+}
+
+.logo-and-buttons {
+	padding-bottom: 20px;
+}

@@ -33,8 +33,8 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 				<div id='mainintro'>
 
 
-
-        <img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
+				  <div class="logo-and-buttons">
+					<img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
 <!--
 					<h1>{% trans "Welcome" %} to PIMMS</h1>
 -->
@@ -51,14 +51,15 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 						<!--<a class="btn btn-large" href="{{ wmslink }}">
 							{% trans "WMS" %}
 						</a>-->
-          </span>
+					</span>
+				  </div>
 
-<hr/>
 
+					{% featured_maps as featured_maps %}
+					{% if featured_maps|length > 0 %}
 					<div class="all-the-carousel">
 						<div id="main-carousel" class="carousel slide">  
 						  <div class="carousel-inner">
-							{% featured_maps as featured_maps %}
 							{% for map in featured_maps %}
 							<div class="item{% if forloop.first %} active{% endif %}">
 								{% include "maps/_map_list_carousel_item.html" %}
@@ -69,9 +70,11 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 						  <a class="carousel-control right" href="#main-carousel" data-slide="next"><i class="icon-angle-right"></i></a>
 						</div> <!-- main-carousel --> 
 
-<hr style="margin-top: -30px"/>
-
 					</div> <!-- all-the-carousel --> 
+					{% else %}
+						<hr>
+					{% endif %}
+
 					<div class="intro" id="mainIntroText">
             <div align="center" class="pull-right">
             <img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:165px; padding-left: 15px" />
@@ -96,8 +99,8 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
   <div class="span1"><h2>Show:</h2></div>
   <div class="span4">
         <div class="btn-group" style="text-align: center; width: 100%; ">
-          <a id="enableLatestButton" class='active btn btn-large' onclick='swapFeaturedLatest()'>Latest Data</a>
-          <a id="enableFeaturedButton" class='btn btn-large' onclick='swapFeaturedLatest()'>Featured Data</a>
+          <a id="enableLatestButton" class='btn btn-large' onclick='swapFeaturedLatest()'>Latest Data</a>
+          <a id="enableFeaturedButton" class='active btn btn-large' onclick='swapFeaturedLatest()'>Featured Data</a>
         </div>
   </div>
   {% if request.user.is_authenticated %}
@@ -122,44 +125,51 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
   </div> <!-- row --> 
         
   <div class="row">
-    <div class="span6">
-      <section id="latestLayers" class="widget list paginate-contents">
+    
+     
+    <aside class="span4 move-well-down">
+      <section id="latestMaps" class="well hide-onload">
+        <h2>{% trans "Latest Maps" %}</h2>
+        <section class="article-list latest-maps" id="search-content">
+          {% listed_maps as listed_maps %}
+          {% for map in listed_maps %}
+            {% include "maps/_map_list_item.html" %}
+                <hr />
+          {% endfor %}
+        </section>
+      </section> <!-- latestLayers --> 
+      <div id="featuredMaps" class="well">
+        <h2>{% trans "Featured Maps" %}</h2>
+        <section class="article-list latest-maps" id="featured-content">
+            {% listed_maps as listed_maps %}
+            {% for map in listed_maps %}
+              {% if map.featured %}
+                {% include "maps/_map_list_item.html" %}
+                <hr />
+              {% endif %}
+            {% endfor %}
+        </section> 
+      </div> <!-- featuredLayers --> 
+      <a href="{% url "maps_browse" %}" class="btn btn-large btn-block">View all Maps</a>
+     </aside>
+      
+    <div class="span8">
+      <section id="latestLayers" class="widget list paginate-contents hide-onload">
         <h2>{% trans "Latest Layers" %}</h2>
         <div class="paginate paginate-auto" id="search-content">
           {% include 'search/search_content.html' %}
         </div> <!-- paginate --> 
       </section> <!-- latestLayers --> 
-      <section id="featuredLayers" class="widget list paginate-contents hide-onload">
+      <section id="featuredLayers" class="widget list paginate-contents">
         <h2>{% trans "Featured Layers" %}</h2>
         <div class="paginate paginate-auto" id="featured-content">
 	      {% include 'search/search_content_featured.html' %}
         </div> <!-- paginate --> 
       </section> <!-- featuredLayers --> 
+      <a href="{% url "layer_browse" %}" class="btn btn-large btn-block">View all Layers</a>
     </div> <!-- span6 -->
-     
-    <div class="span6">
-      <section id="latestMaps" class="widget list paginate-contents">
-        <h2>{% trans "Latest Maps" %}</h2>
-        <div class="paginate paginate-auto" id="search-content">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% include "maps/_map_list_item.html" %}
-          {% endfor %}
-        </div> <!-- paginate --> 
-      </section> <!-- latestLayers --> 
-      <section id="featuredMaps" class="widget list paginate-contents hide-onload">
-        <h2>{% trans "Featured Maps" %}</h2>
-        <div class="paginate paginate-auto" id="featured-content">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% if map.featured %}
-              {% include "maps/_map_list_item.html" %}
-            {% endif %}
-          {% endfor %}
-        </div> <!-- paginate --> 
-      </section> <!-- featuredLayers --> 
-      <!---
-      <div id="latestMaps" class="well">
+      
+      <!-- <div id="latestMaps" class="well hide-onload">
         <h2>{% trans "Latest Maps" %}</h2>
         <section class="article-list latest-maps">
           {% listed_maps as listed_maps %}
@@ -168,7 +178,7 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
           {% endfor %}
         </section>
       </div>
-      <div id="featuredMaps" class="well hide-onload">
+      <div id="featuredMaps" class="well">
         <h2>{% trans "Featured Maps" %}</h2>
         <section class="article-list latest-maps">
           {% listed_maps as listed_maps %}
@@ -178,8 +188,8 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
             {% endif %}
           {% endfor %}
         </section>
-      </div> -->
-    </div>
+      </div> --->
+      
   </div>
   {% endblock %}
 </div>
