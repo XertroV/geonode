@@ -40,6 +40,8 @@ DEBUG_STATIC = False
 # geonode to be listening for GeoServer auth requests.
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8000'
 
+SITE_NAME="PacGeo - Oceans and Islands Programme, Applied GeoScience and Technology Division, Secretariat of the Pacific Community"
+
 # Defines settings for development
 DATABASES = {
     'default': {
@@ -152,7 +154,7 @@ VIDEO_DOCUMENT_TYPES = [
 ALLOWED_DOCUMENT_TYPES = [
     'doc', 'docx', 'xls', 'xslx', 'pdf', 'zip', 'jpg', 'jpeg', 'tif', 'tiff', 'png', 'gif', 'txt'
 ] + VIDEO_DOCUMENT_TYPES
-MAX_DOCUMENT_SIZE = 20 # MB
+MAX_DOCUMENT_SIZE = 200 # MB
 
 
 INSTALLED_APPS = (
@@ -203,6 +205,7 @@ INSTALLED_APPS = (
     'geonode.proxy',
     'geonode.security',
     'geonode.search',
+    'geonode.social',
     'geonode.catalogue',
     'geonode.documents',
 )
@@ -348,9 +351,9 @@ AGON_RATINGS_CATEGORY_CHOICES = {
 
 # Activity Stream
 ACTSTREAM_SETTINGS = {
-    'MODELS': ('auth.user', 'layers.layer', 'maps.map'),
+    'MODELS': ('auth.user', 'layers.layer', 'maps.map', 'dialogos.comment'),
     'FETCH_RELATIONS': True,
-    'USE_PREFETCH': True,
+    'USE_PREFETCH': False,
     'USE_JSONFIELD': True,
     'GFK_FETCH_DEPTH': 1,
 }
@@ -401,6 +404,10 @@ OGC_SERVER = {
     'default' : {
         'BACKEND' : 'geonode.geoserver',
         'LOCATION' : 'http://localhost:8080/geoserver/',
+        # PUBLIC_LOCATION needs to be kept like this because in dev mode
+        # the proxy won't work and the integration tests will fail
+        # the entire block has to be overridden in the local_settings
+        'PUBLIC_LOCATION' : 'http://localhost:8080/geoserver/',
         'USER' : 'admin',
         'PASSWORD' : 'geoserver',
         'MAPFISH_PRINT_ENABLED' : True,
@@ -408,6 +415,8 @@ OGC_SERVER = {
         'GEONODE_SECURITY_ENABLED' : True,
         'GEOGIT_ENABLED' : False,
         'WMST_ENABLED' : False,
+        'BACKEND_WRITE_ENABLED': True,
+        'WPS_ENABLED' : True,
         # Set to name of database in DATABASES dictionary to enable
         'DATASTORE': '', #'datastore',
     }
@@ -501,7 +510,7 @@ DEFAULT_MAP_ZOOM = 0
 MAP_BASELAYERS = [{
     "source": {
         "ptype": "gxp_wmscsource",
-        "url": OGC_SERVER['default']['LOCATION'] + "wms",
+        "url": OGC_SERVER['default']['PUBLIC_LOCATION'] + "wms",
         "restUrl": "/gs/rest"
      }
   },{
@@ -512,9 +521,9 @@ MAP_BASELAYERS = [{
     "fixed": True,
     "group":"background"
   }, {
-    "source": {"ptype": "gxp_olsource"},
+    "source": {"ptype": "gxp_osmsource"},
     "type":"OpenLayers.Layer.OSM",
-    "args":["OpenStreetMap"],
+    "name":"mapnik",
     "visibility": False,
     "fixed": True,
     "group":"background"

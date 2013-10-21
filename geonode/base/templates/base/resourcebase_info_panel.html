@@ -12,7 +12,7 @@
   {% if resourcebase.abstract %}
     <li>
       <strong>{% trans "Abstract" %}:</strong>
-      {{ resourcebase.abstract|escape|urlize|linebreaks|safe|truncatechars:160 }}
+      {{ resourcebase.abstract|escape|urlize|linebreaks|safe }}
     </li>
   {% endif %}
 
@@ -46,12 +46,10 @@
     </li>
   {% endif %}
   
-  {% if resourcebase.regions %}
+  {% if resourcebase.regions.all %}
    <li>
       <strong>{% trans "Regions" %}:</strong>
-        {% for region in resourcebase.regions.all %}
-          {{ region }}
-        {% endfor %}
+        {{ resourcebase.regions.all|join:", " }}
     </li>
   {% endif %}
           

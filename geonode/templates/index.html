@@ -33,8 +33,8 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 				<div id='mainintro'>
 
 
-
-        <img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
+				  <div class="logo-and-buttons">
+					<img src="http://ict.sopac.org/pacgeo/PacGeo_OIP_1.png" style="width: 480px; margin-top: -24px; margin-bottom: -20px" />
 <!--
 					<h1>{% trans "Welcome" %} to PIMMS</h1>
 -->
@@ -51,14 +51,15 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 						<!--<a class="btn btn-large" href="{{ wmslink }}">
 							{% trans "WMS" %}
 						</a>-->
-          </span>
+					</span>
+				  </div>
 
-<hr/>
 
+					{% featured_maps as featured_maps %}
+					{% if featured_maps|length > 0 %}
 					<div class="all-the-carousel">
 						<div id="main-carousel" class="carousel slide">  
 						  <div class="carousel-inner">
-							{% featured_maps as featured_maps %}
 							{% for map in featured_maps %}
 							<div class="item{% if forloop.first %} active{% endif %}">
 								{% include "maps/_map_list_carousel_item.html" %}
@@ -69,92 +70,106 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
 						  <a class="carousel-control right" href="#main-carousel" data-slide="next"><i class="icon-angle-right"></i></a>
 						</div> <!-- main-carousel --> 
 
-<hr style="margin-top: -30px"/>
-
 					</div> <!-- all-the-carousel --> 
-					<div class="intro" id="mainIntroText">
-						<p align="justify" style="font-size: 16px !important">
+					{% else %}
+						<hr>
+					{% endif %}
 
-<b>PacGeo</b> started life as the <u>Pacific Island Marine Spatial Information System</u>, but since inception has broaden it's scope to be an all encompassing geospatial platform to catalogue, administer and expose geophysical, geodetic and specialist marine spatial data. The system was developed as a regional service in conjuction with Geoscience Australia (GA), SOPAC Division, the UNEP Shelf Programme, the University of Sydney and the Commonwealth Secretariat for provisioning easy access to jurisdictional information as well as other geophysical data in the Pacific.
-<hr/>
+					<div class="intro" id="mainIntroText">
+            <div align="center" class="pull-right">
+            <img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:165px; padding-left: 15px" />
+            </div>	  
+						<p align="justify" style="font-size: 16px !important">
+            <b>PacGeo</b> started life as the <u>Pacific Island Marine Spatial Information System</u>, but since inception has broaden it's scope to be an all encompassing geospatial platform to catalogue, administer and expose geophysical, geodetic and specialist marine spatial data. The system was developed as a regional service in conjuction with Geoscience Australia (GA), SOPAC Division, the UNEP Shelf Programme, the University of Sydney and the Commonwealth Secretariat for provisioning easy access to jurisdictional information as well as other geophysical data in the Pacific.
 						</p>
-		
 					</div> <!-- intro --> 
-		        </div> <!-- mainintro --> 
+          <!--- &nbsp;-->
+          </div> <!-- mainintro --> 
 	        </div> <!-- hero-unit -->  
   {% endblock %}
 
   {% block mainbody %}
   <div class="row">
 	<div class="span12">
-	 
+          <hr />
 	</div> <!-- span12 --> 
   </div> <!-- row --> 
+  
+  <div class="row control-buttons">
+  <div class="span1"><h2>Show:</h2></div>
+  <div class="span4">
+        <div class="btn-group" style="text-align: center; width: 100%; ">
+          <a id="enableLatestButton" class='btn btn-large' onclick='swapFeaturedLatest()'>Latest Data</a>
+          <a id="enableFeaturedButton" class='active btn btn-large' onclick='swapFeaturedLatest()'>Featured Data</a>
+        </div>
+  </div>
+  {% if request.user.is_authenticated %}
+    <div class="span2 border-left">
+      <h2>Contribute:</h2>
+    </div>
+    <div class="span2">
+          <a href="{% url "data_upload" %}" class="btn btn-large btn-block">{% trans 'Upload Layers' %}</a>
+    </div> <!-- span2 --> 
+    <div class="span2">
+         <a href="{% url "new_map" %}" class="btn btn-large btn-block">{% trans 'Create a Map' %}</a>
+    </div> <!-- span2 --> 
+  {% else %}
+    <div class="span6 border-left">
+      <h2 class="contrib-no-login">Log in to contribute.</h2>
+    </div>
+  {% endif %}
+  </div>
   <div class="row">
+  <div class="span12">
+          <hr /></div>
+  </div> <!-- row --> 
+        
+  <div class="row">
+    
+     
+    <aside class="span4 move-well-down">
+      <section id="latestMaps" class="well hide-onload">
+        <h2>{% trans "Latest Maps" %}</h2>
+        <section class="article-list latest-maps" id="search-content">
+          {% listed_maps as listed_maps %}
+          {% for map in listed_maps %}
+            {% include "maps/_map_list_item.html" %}
+                <hr />
+          {% endfor %}
+        </section>
+      </section> <!-- latestLayers --> 
+      <div id="featuredMaps" class="well">
+        <h2>{% trans "Featured Maps" %}</h2>
+        <section class="article-list latest-maps" id="featured-content">
+            {% listed_maps as listed_maps %}
+            {% for map in listed_maps %}
+              {% if map.featured %}
+                {% include "maps/_map_list_item.html" %}
+                <hr />
+              {% endif %}
+            {% endfor %}
+        </section> 
+      </div> <!-- featuredLayers --> 
+      <a href="{% url "maps_browse" %}" class="btn btn-large btn-block">View all Maps</a>
+     </aside>
+      
     <div class="span8">
-      <section id="latestLayers" class="widget list paginate-contents">
+      <section id="latestLayers" class="widget list paginate-contents hide-onload">
         <h2>{% trans "Latest Layers" %}</h2>
         <div class="paginate paginate-auto" id="search-content">
           {% include 'search/search_content.html' %}
         </div> <!-- paginate --> 
       </section> <!-- latestLayers --> 
-      <section id="featuredLayers" class="widget list paginate-contents hide-onload">
+      <section id="featuredLayers" class="widget list paginate-contents">
         <h2>{% trans "Featured Layers" %}</h2>
         <div class="paginate paginate-auto" id="featured-content">
 	      {% include 'search/search_content_featured.html' %}
         </div> <!-- paginate --> 
       </section> <!-- featuredLayers --> 
-    </div> <!-- span8 --> 
-    <aside class="span4">
+      <a href="{% url "layer_browse" %}" class="btn btn-large btn-block">View all Layers</a>
+    </div> <!-- span6 -->
 
-<div align="center">
-<img src="http://ict.sopac.org/pacgeo/oip.png" align="center" style="width:200px" />
-</div>	  
-
-      <div class="pagination pagination-large" style="text-align: center">
-	    <ul>
-	      <li id="enableLatestButton" class='active'><a onclick='swapFeaturedLatest()'>Latest Data</a></li>
-	      <li id="enableFeaturedButton" ><a onclick='swapFeaturedLatest()'>Featured Data</a></li>
-	    </ul>
-	  </div> <!-- pagination --> 
-      {% if request.user.is_authenticated %}
-        <div class="well">
-          <section>
-            <h2>{% trans "Contribute" %}</h2>
-            <p class="main-actions">
-            {% blocktrans %}
-              GeoNode enables you to upload, manage, and browse data layers. Search for data that is valuable to you, or upload your own data. 
-            {% endblocktrans %}
-              <a href="{% url "data_upload" %}" class="btn btn-large">{% trans 'Upload Layers' %}</a>
-            {% blocktrans %}
-              GeoNode enables you to compose and share maps. Create a map with our cartography tool, or explore maps shared by others. 
-            {% endblocktrans %}
-              <a href="{% url "new_map" %}" class="btn btn-large">{% trans 'Create a Map' %}</a>
-            </p>
-          </section>
-        </div>
-      {% endif %}
-      <div id="latestMaps" class="well">
-        <h2>{% trans "Latest Maps" %}</h2>
-        <section class="article-list latest-maps">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% include "maps/_map_list_item.html" %}
-          {% endfor %}
-        </section>
-      </div>
-      <div id="featuredMaps" class="well hide-onload">
-        <h2>{% trans "Featured Maps" %}</h2>
-        <section class="article-list latest-maps">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% if map.featured %}
-              {% include "maps/_map_list_item.html" %}
-            {% endif %}
-          {% endfor %}
-        </section>
-      </div>
-    </aside>
+      
   </div>
   {% endblock %}
 </div>
