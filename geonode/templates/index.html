@@ -168,27 +168,7 @@ Applied GeoScience and Technology Division, Secretariat of the Pacific Community
       </section> <!-- featuredLayers --> 
       <a href="{% url "layer_browse" %}" class="btn btn-large btn-block">View all Layers</a>
     </div> <!-- span6 -->
-      
-      <!-- <div id="latestMaps" class="well hide-onload">
-        <h2>{% trans "Latest Maps" %}</h2>
-        <section class="article-list latest-maps">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% include "maps/_map_list_item.html" %}
-          {% endfor %}
-        </section>
-      </div>
-      <div id="featuredMaps" class="well">
-        <h2>{% trans "Featured Maps" %}</h2>
-        <section class="article-list latest-maps">
-          {% listed_maps as listed_maps %}
-          {% for map in listed_maps %}
-            {% if map.featured %}
-              {% include "maps/_map_list_item.html" %}
-            {% endif %}
-          {% endfor %}
-        </section>
-      </div> --->
+
       
   </div>
   {% endblock %}

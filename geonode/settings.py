@@ -40,6 +40,8 @@ DEBUG_STATIC = False
 # geonode to be listening for GeoServer auth requests.
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8000'
 
+SITE_NAME="PacGeo - Oceans and Islands Programme, Applied GeoScience and Technology Division, Secretariat of the Pacific Community"
+
 # Defines settings for development
 DATABASES = {
     'default': {
