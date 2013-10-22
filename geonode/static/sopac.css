@@ -7,6 +7,9 @@
 	display: none;
 }
 
+.navbar .navbar-inner {
+}
+
 .hero-unit .intro {
 	width: 100%;
 }
@@ -30,6 +33,7 @@
 	background-size: cover;
 	background-repeat:no-repeat;
 	background-position: center;
+	margin-right: 20px;
 }
 
 .carousel-control {
@@ -129,4 +133,10 @@ aside .well h2 {
 
 .logo-and-buttons {
 	padding-bottom: 20px;
+}
+
+.thumb {
+	max-height: 200px;
+	margin-left: auto;
+	margin-right: auto;
 }
