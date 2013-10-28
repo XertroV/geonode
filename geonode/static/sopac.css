@@ -151,3 +151,8 @@ aside .well h2 {
 .list article .item-header img {
 	width: auto;
 }
+
+.navbar .navbar-inner {
+	background-color: rgb(0, 116, 148);
+	background-image: linear-gradient(to bottom, rgb(0, 140, 179), rgb(0, 80, 102));
+}
