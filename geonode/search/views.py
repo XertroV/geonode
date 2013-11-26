@@ -60,7 +60,8 @@ def _create_viewer_config():
 _viewer_config = _create_viewer_config()
 
 
-def search_page(request, template='search/search.html', **kw): 
+def search_page(request, template='search/search.html', **kw):
+    initial_query = request.REQUEST.get('q','')
     results, facets, query = search_api(request, format='html', **kw)
     tags = {}
 
@@ -86,10 +87,11 @@ def search_page(request, template='search/search.html', **kw):
     total_featured = len(featured_results)
 
     return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
-        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags, 'wmslink': ogc_server_settings.LOCATION + "wms"}))
+        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags, 'wmslink': ogc_server_settings.LOCATION + "wms",
+		'initial_query': initial_query}))
 
     #return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
-    #    'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags}))
+    #    'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags,}))
 
 def advanced_search(request, **kw):
     
