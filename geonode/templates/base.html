@@ -190,7 +190,7 @@
           <div class="pull-left">
               &copy 2013, Oceans and Islands Programme, SOPAC Division, SPC |
               <a href="{% url "developer" %}">{% trans "OGC Web Services" %}</a> |
-              <a href="{% url "about" %}">{% trans "About" %}</a>
+              <a href="{% url "about" %}">{% trans "About" %}</a> | {{ VERSION }}
           </div>
           <div class="pull-right">
             {% if csrf_token != "NOTPROVIDED" %}

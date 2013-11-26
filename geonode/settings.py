@@ -396,7 +396,7 @@ DEFAULT_TOPICCATEGORY = 'location'
 
 # Topic Categories list should not be modified (they are ISO). In case you 
 # absolutely need it set to True this variable
-MODIFY_TOPICCATEGORY = False
+MODIFY_TOPICCATEGORY = True
 
 MISSING_THUMBNAIL = 'geonode/img/missing_thumb.png'
 
