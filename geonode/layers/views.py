@@ -91,6 +91,13 @@ def _resolve_layer(request, typename, permission='layers.change_layer',
     return resolve_object(request, Layer, {'typename':typename},
                           permission = permission, permission_msg=msg, **kwargs)
 
+def _resolve_layer_from_id(request, layerid, permission='layers.change_layer',
+                   msg=_PERMISSION_MSG_GENERIC, **kwargs):
+    '''
+    Resolve the layer by the provided id and check the optional permission.
+    '''
+    return resolve_object(request, Layer, {'id':layerid},
+                          permission = permission, permission_msg=msg, **kwargs)
 
 #### Basic Layer Views ####
 
@@ -171,7 +178,6 @@ def layer_upload(request, template='upload/layer_upload.html'):
             status_code = 500
         return HttpResponse(json.dumps(out), mimetype='application/json', status=status_code)
 
-
 def layer_detail(request, layername, template='layers/layer_detail.html'):
     layer = _resolve_layer(request, layername, 'layers.view_layer', _PERMISSION_MSG_VIEW)
 
@@ -196,6 +202,10 @@ def layer_detail(request, layername, template='layers/layer_detail.html'):
         "permissions_json": _perms_info_json(layer, LAYER_LEV_NAMES),
         "documents": get_related_documents(layer),
     }))
+    
+def layer_detail_from_id(request, layerid, template='layers/layer_detail.html'):
+    layer = _resolve_layer_from_id(request, layerid, 'layers.view_layer', _PERMISSION_MSG_VIEW)
+    return layer_detail(request, layer.typename)
 
 
 @login_required

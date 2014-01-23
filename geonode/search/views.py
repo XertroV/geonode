@@ -36,9 +36,11 @@ from geonode.search.normalizers import apply_normalizers
 from geonode.search.query import query_from_request
 from geonode.search.query import BadQuery
 from geonode.base.models import TopicCategory
+from geonode.utils import ogc_server_settings
 
 from datetime import datetime
 from time import time
+from copy import deepcopy
 import json
 import cPickle as pickle
 import operator
@@ -75,9 +77,20 @@ def search_page(request, template='search/search.html', **kw):
     total = 0
     for val in facets.values(): total+=val
     total -= facets['raster'] + facets['vector']
-    return render_to_response(template, RequestContext(request, {'object_list': results, 'total': total, 
-        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags,
-        'initial_query': initial_query}))
+    featured_results = deepcopy(results)
+    torem = []
+    if len(featured_results) > 0 and hasattr(featured_results[0].o, 'featured'):
+        for r in featured_results:
+            if not r.o.featured:
+                torem.append(r)
+        for r in torem:
+            featured_results.remove(r)
+    total_featured = len(featured_results)
+
+    return render_to_response(template, RequestContext(request, {'object_list': results, 'featured_object_list': featured_results, 'total': total, 'total_featured': total_featured,
+        'facets': facets, 'query': json.dumps(query.get_query_response()), 'tags': tags, 'wmslink': ogc_server_settings.LOCATION + "wms",
+		'initial_query': initial_query}))
+
 
 def advanced_search(request, **kw):
     ctx = {

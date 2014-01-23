@@ -19,15 +19,16 @@
 {% block body_class %}data{% endblock %}
 
 {% block body_outer %}
-  <div class="span5">
+  <div class="span6">
     <h2 class="page-title">{{ layer.title|default:layer.typename }}</h2>
   </div>
-  <div class="span7 action-group">
+  <div class="span6 action-group">
     <div class="btn-group pull-right">
       <!-- download layer -->
       <div class="btn-group">
+		<a class="btn btn-large btn-primary" href="/layers/id/{{ layer.id }}" title="Permalink"><i class="icon-link"></i></a>
         <a class="btn btn-large btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Download Layer" %}
+          <i class="icon-download-alt"></i> {% trans "Layer" %}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -39,7 +40,7 @@
       <!-- download metadata -->
       <div class="btn-group">
         <a class="btn btn-large btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-          {% trans "Download Metadata" %}
+          <i class="icon-download-alt"></i> {% trans "Metadata" %}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -202,7 +203,7 @@
     </div>
     {% endif %}
     {% endif %}
-    {% if user.is_authenticated %}
+    {# {% if user.is_authenticated %} #}
     <div class="well">
         <h2>{% trans "Styles" %}</h2>
         <p>{% trans "The following styles are associated with this layer. Choose a style to view it in the preview map." %}</p>
@@ -222,7 +223,7 @@
           {% endfor %}
         </ul>
     </div>
-    {% endif %}
+    {# {% endif %} #}
     <div class="well">
       <h2>{% trans "About" %}</h2>
       <p>{% trans "Layer Owner" %}</p>

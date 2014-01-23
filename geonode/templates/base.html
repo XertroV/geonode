@@ -14,14 +14,14 @@
       {% else %}
       <link href="{{ STATIC_URL }}lib/css/assets.min.css" rel="stylesheet"/>
       {% endif %}
-      {% block extra_head %}
-      {% endblock %}
+      <link href="{{ STATIC_URL }}sopac.css" rel="stylesheet"/>
+      {% block extra_head %}{% endblock %}
     {% endblock %}
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body class="{% block body_class %}{% endblock %}">
+  <body class="{% block body_class %}{% endblock %}" id="sopacbody">
     {% block header %}
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -29,7 +29,11 @@
         <div class="container">
           <div class="row">
             <div class="span3">
-              <a href="{% url "home" %}"><span class="nav-logo"></span></a>
+              <a href="{% url "home" %}">
+                <span class="nav-logo">
+                  <!--<a class="brand">{{ SITE_NAME }}</a>-->
+                </span>
+              </a>
             </div>
             <div class="span9">
               <div class="nav-collapse pull-right">
@@ -151,9 +155,9 @@
     </div> <!-- /.navbar navbar-fixed-top -->
     {% endblock header %}
 
-    {% block middle %}
+        {% block middle %}
     {% announcements as site_wide_announcements %}
-    <div class="content-wrap">
+    <div class="content-wrap" id="sopacmain-content">
       {% if site_wide_announcements %}
       <div id="site_wide_announcements">
         {% for announcement in site_wide_announcements %}
@@ -181,34 +185,35 @@
     </div>
     {% endblock middle %}
     
+    
+    
     {% block footer %}
     <footer class="footer">
       <div class="container">
-        <div class="pull-left">
-          {% trans "Powered by" %} <a href="http://geonode.org">{% trans "GeoNode" %}</a> <em>{% trans "version" %} {{ VERSION }}</em> |
-          <a href="{% url "developer" %}">{% trans "Developers" %}</a> |
-          <a href="{% url "about" %}">{% trans "About" %}</a>
-        </div>
-        <div class="pull-right">
-        {% if csrf_token != "NOTPROVIDED" %}
-          {% get_current_language as LANGUAGE %}
-          <form class="form-inline" action="/i18n/setlang/" method="post">
-          {% csrf_token %}
-            <label>{% trans "Language" %}</label>
-            <select class="input span2" name="language" onchange="javascript:form.submit()">
-              {% for lang in LANGUAGES %}
-              <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %} selected="selected"{% endifequal %}>
-                {{ lang.1 }}
-              </option>
-              {% endfor %}
-            </select>
-          </form>
-        {% endif %}
-        </div> <!-- /.pull-right -->
-      </div> <!-- /.container -->
+          <div class="pull-left">
+              &copy 2013, Oceans and Islands Programme, SOPAC Division, SPC |
+              <a href="{% url "developer" %}">{% trans "OGC Web Services" %}</a> |
+              <a href="{% url "about" %}">{% trans "About" %}</a> | {{ VERSION }}
+          </div>
+          <div class="pull-right">
+            {% if csrf_token != "NOTPROVIDED" %}
+              {% get_current_language as LANGUAGE %}
+              <form class="form-inline" action="/i18n/setlang/" method="post">
+                {% csrf_token %}
+                <label>{% trans "Language" %}</label>
+                <select class="input span2" name="language" onchange="javascript:form.submit()">
+                  {% for lang in LANGUAGES %}
+                    <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %} selected="selected"{% endifequal %}>
+                      {{ lang.1 }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </form>
+            {% endif %}
+          </div>
+      </div>
     </footer>
     {% endblock footer %}
-    
     {% if DEBUG_STATIC %}
     <script src="{{ STATIC_URL }}lib/js/jquery.js"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery.dataTables.js"></script>
@@ -225,7 +230,8 @@
     <script src="{{ STATIC_URL }}lib/js/assets.min.js"></script>
     {% endif %}
     <script src="{{ STATIC_URL }}geonode/js/utils/utils.js"></script>
-    <script src="{{ STATIC_URL }}geonode/js/base/base.js"></script>
+	<script src="{{ STATIC_URL }}geonode/js/base/base.js"></script>
+    <script src="{{ STATIC_URL }}sopac.js"></script>
     <script>
       $("#search").select2({
         minimumInputLength: 1,
@@ -260,6 +266,7 @@
           $('#search').parent().submit();
         }
       });
+      $(document).ready(function(){$('.carousel').carousel();});
     </script>
 
     {% block extra_script %}{% endblock extra_script %}

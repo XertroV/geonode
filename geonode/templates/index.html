@@ -5,79 +5,161 @@
 {% load pagination_tags %}
 {% load staticfiles %}
 {% load url from future %}
-
-{% block title %} {% trans "Welcome!" %} - {{ block.super }} {% endblock %}
-
+{% block title %} PacGeo - Oceans and Islands Programme, Applied GeoScience and Technology Division, SPC {% endblock %}
 {% block body_class %}home{% endblock %}
 
 {% block body_outer %}
+<div style="margin-top: -20px; margin-bottom: 24px; color:white; height:22px; padding:6px; font-size: 24px; width: 100% !important; background-color: #025C90;" align="center">
+   Applied GeoScience and Technology Division, Secretariat of the Pacific Community
+</div>
 <div class="span12">
-  {% block hero %}
-  <div class="hero-unit">
-    <h1>{% trans "Welcome" %}</h1>
-    <div class="hero-unit-content">
-      <div class="intro">
-        <p>
-          {% blocktrans %}
-            GeoNode is an open source platform for sharing geospatial data and maps.  If you have any questions about the software or service, join our <a href="https://groups.google.com/d/forum/geonode-users">mailing list</a>.
-          {% endblocktrans %}
-        </p>
-        <span>{% trans 'Need help' %} <a href="http://docs.geonode.org/en/latest/tutorials/users/quickstart/index.html">{% trans 'Getting Started?' %}</a></span>
+   {% block hero %} 
+   <div class="hero-unit">
+      <div id='mainintro'>
+         <!--BRANDING-->
+         <div class="logo-and-buttons">
+            {% include "branding_logo.html" %}
+            <span class="pull-right btn-group" style="margin-top: 14px">
+               <a class="btn btn-large" href="{% url 'about' %}" onclick="//showAbout();">
+               {% trans "About" %}
+               </a> 
+               <a class="btn btn-large" href="{% url "layer_browse" %}">
+               {% trans "Explore Layers" %}
+               </a>
+               <a class="btn btn-large" href="{% url "maps_browse" %}">
+               {% trans "Explore Maps" %}
+               </a>
+               <!--<a class="btn btn-large" href="{{ wmslink }}">
+                  {% trans "WMS" %}
+                  </a>-->
+            </span>
+         </div>
+         {% featured_maps as featured_maps %}
+         {% if featured_maps|length > 0 %}
+         <div class="all-the-carousel">
+            <div id="main-carousel" class="carousel slide">
+               <div class="carousel-inner">
+                  {% for map in featured_maps %}
+                  <div class="item{% if forloop.first %} active{% endif %}">
+                     {% include "maps/_map_list_carousel_item.html" %}
+                  </div>
+                  <!-- item --> 
+                  {% endfor %}
+               </div>
+               <!-- carousel-inner --> 
+               <a class="carousel-control left" href="#main-carousel" data-slide="prev"><span class="icon-angle-left"></span></a>
+               <a class="carousel-control right" href="#main-carousel" data-slide="next"><i class="icon-angle-right"></i></a>
+            </div>
+            <!-- main-carousel --> 
+         </div>
+         <!-- all-the-carousel --> 
+         {% else %}
+         <hr>
+         {% endif %}
+         <!--BRANDING-->
+         {% include "branding_intro.html" %} 
+         <!-- intro --> 
+         <!--- &nbsp;-->
       </div>
-      <div class="btns">
-        <a class="btn btn-large" href="{% url "layer_browse" %}">
-          {% trans "Explore Layers" %}
-        </a>
-        <a class="btn btn-large" href="{% url "maps_browse" %}">
-          {% trans "Explore Maps" %}
-        </a>
+      <!-- mainintro --> 
+   </div>
+   <!-- hero-unit -->  
+   {% endblock %}
+   {% block mainbody %}
+   <div class="row">
+      <div class="span12">
+         <hr />
       </div>
-    </div>
-  </div>
-  {% endblock %}
-  {% block mainbody %}
-  <div class="row">
-    <div class="span8">
-      <section class="widget list paginate-contents">
-        <h2>{% trans "Latest Layers" %}</h2>
-        <div class="paginate paginate-auto" id="search-content">
-          {% include 'search/search_content.html' %}
-        </div>
-      </section>
-    </div>
-    <aside class="span4">
+      <!-- span12 --> 
+   </div>
+   <!-- row --> 
+   <div class="row control-buttons">
+      <div class="span1">
+         <h2>Show:</h2>
+      </div>
+      <div class="span4">
+         <div class="btn-group" style="text-align: center; width: 100%; ">
+            <a id="enableLatestButton" class='btn btn-large' onclick='swapFeaturedLatest()'>Latest Data</a>
+            <a id="enableFeaturedButton" class='active btn btn-large' onclick='swapFeaturedLatest()'>Featured Data</a>
+         </div>
+      </div>
       {% if request.user.is_authenticated %}
-        <div class="well">
-          <section>
-            <h2>{% trans "Contribute" %}</h2>
-            <p class="main-actions">
-            {% blocktrans %}
-              GeoNode enables you to upload, manage, and browse data layers. Search for data that is valuable to you, or upload your own data. 
-            {% endblocktrans %}
-              <a href="{% url "data_upload" %}" class="btn btn-large">{% trans 'Upload Layers' %}</a>
-            {% blocktrans %}
-              GeoNode enables you to compose and share maps. Create a map with our cartography tool, or explore maps shared by others. 
-            {% endblocktrans %}
-              <a href="{% url "new_map" %}" class="btn btn-large">{% trans 'Create a Map' %}</a>
-            </p>
-          </section>
-        </div>
-      {% endif %}
-      <div class="well">
-        <h2>{% trans "Latest Maps" %}</h2>
-        <section class="article-list latest-maps">
-          {% featured_maps as featured_maps %}
-          {% for map in featured_maps %}
-            {% include "maps/_map_list_item.html" %}
-          {% endfor %}
-        </section>
+      <div class="span2 border-left">
+         <h2>Contribute:</h2>
       </div>
-    </aside>
-  </div>
-  {% endblock %}
+      <div class="span2">
+         <a href="{% url "data_upload" %}" class="btn btn-large btn-block">{% trans 'Upload Layers' %}</a>
+      </div>
+      <!-- span2 --> 
+      <div class="span2">
+         <a href="{% url "new_map" %}" class="btn btn-large btn-block">{% trans 'Create a Map' %}</a>
+      </div>
+      <!-- span2 --> 
+      {% else %}
+      <div class="span6 border-left">
+         <h2 class="contrib-no-login">Log in to contribute.</h2>
+      </div>
+      {% endif %}
+   </div>
+   <div class="row">
+      <div class="span12">
+         <hr />
+      </div>
+   </div>
+   <!-- row --> 
+   <div class="row">
+      <aside class="span4 move-well-down">
+         <section id="latestMaps" class="well hide-onload">
+            <h2>{% trans "Latest Maps" %}</h2>
+            <section class="article-list latest-maps" id="search-content">
+               {% listed_maps as listed_maps %}
+               {% for map in listed_maps %}
+               {% include "maps/_map_list_item.html" %}
+               <hr />
+               {% endfor %}
+            </section>
+         </section>
+         <!-- latestLayers --> 
+         <div id="featuredMaps" class="well">
+            <h2>{% trans "Featured Maps" %}</h2>
+            <section class="article-list latest-maps" id="featured-content">
+               {% listed_maps as listed_maps %}
+               {% for map in listed_maps %}
+               {% if map.featured %}
+               {% include "maps/_map_list_item.html" %}
+               <hr />
+               {% endif %}
+               {% endfor %}
+            </section>
+         </div>
+         <!-- featuredLayers --> 
+         <a href="{% url "maps_browse" %}" class="btn btn-large btn-block">View all Maps</a>
+      </aside>
+      <div class="span8">
+         <section id="latestLayers" class="widget list paginate-contents hide-onload">
+            <h2>{% trans "Latest Layers" %}</h2>
+            <div class="paginate paginate-auto" id="search-content">
+               {% include 'search/search_content.html' %}
+            </div>
+            <!-- paginate --> 
+         </section>
+         <!-- latestLayers --> 
+         <section id="featuredLayers" class="widget list paginate-contents">
+            <h2>{% trans "Featured Layers" %}</h2>
+            <div class="paginate paginate-auto" id="featured-content">
+               {% include 'search/search_content_featured.html' %}
+            </div>
+            <!-- paginate --> 
+         </section>
+         <!-- featuredLayers --> 
+         <a href="{% url "layer_browse" %}" class="btn btn-large btn-block">View all Layers</a>
+      </div>
+      <!-- span6 -->
+   </div>
+   {% endblock %}
 </div>
 {% endblock %}
 
 {% block extra_script %}  
-  {% include 'search_scripts.html' %}
+{% include 'search_scripts.html' %}
 {% endblock extra_script %}

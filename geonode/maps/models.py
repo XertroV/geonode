@@ -50,7 +50,6 @@ from geonode.utils import http_client, ogc_server_settings
 
 from geoserver.catalog import Catalog
 from geoserver.layer import Layer as GsLayer
-from geoserver.layergroup import UnsavedLayerGroup as GsUnsavedLayerGroup
 from agon_ratings.models import OverallRating
 
 logger = logging.getLogger("geonode.maps.models")
@@ -85,7 +84,9 @@ class Map(ResourceBase, GXPMapBase):
 
     popular_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
-
+    
+    featured = models.BooleanField(default=False)
+    
     def __unicode__(self):
         return '%s by %s' % (self.title, (self.owner.username if self.owner else "<Anonymous>"))
 
@@ -209,14 +210,15 @@ class Map(ResourceBase, GXPMapBase):
         if len(self.layers) == 0:
             return
         if self.thumbnail == None:
-            self.save_thumbnail(self._thumbnail_url(width=240, height=180), save)
+            #self.save_thumbnail(self._thumbnail_url(width=240, height=180), save)
+            self.save_thumbnail(self._thumbnail_url(width=480, height=270), save)
                 
 
     def _render_thumbnail(self, spec):
         http = httplib2.Http()
         url = "%srest/printng/render.png" % ogc_server_settings.LOCATION
         hostname = urlparse(settings.SITEURL).hostname
-        params = dict(width=240, height=180, auth="%s,%s,%s" % (hostname, _user, _password))
+        params = dict(width=480, height=270, auth="%s,%s,%s" % (hostname, _user, _password))
         url = url + "?" + urllib.urlencode(params)
         http.add_credentials(_user, _password)
         netloc = urlparse(url).netloc

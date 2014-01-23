@@ -30,6 +30,8 @@ class Document(ResourceBase):
 
     popular_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
+    
+    featured = models.BooleanField(default=False)
 
     def __unicode__(self):  
         return self.title

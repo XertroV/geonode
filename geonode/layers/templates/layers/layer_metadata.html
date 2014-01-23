@@ -13,6 +13,9 @@
         Editing details for {{ layer_title }}
       {% endblocktrans %}
     </legend>
+    <div class="form-actions">
+      <input type="submit" class="btn btn-primary" value="{% trans "Update" %}"/>
+    </div>
     {% if layer.metadata_uploaded %}
 	<div style="background-color: orange;">{% blocktrans %}Note: this layer's orginal metadata was populated by importing a metadata XML file.
         GeoNode's metadata import supports a subset of ISO, FGDC, and Dublin Core metadata elements.

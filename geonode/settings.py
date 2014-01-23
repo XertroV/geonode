@@ -40,6 +40,8 @@ DEBUG_STATIC = False
 # geonode to be listening for GeoServer auth requests.
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8000'
 
+SITE_NAME="PacGeo - Oceans and Islands Programme, Applied GeoScience and Technology Division, Secretariat of the Pacific Community"
+
 # Defines settings for development
 DATABASES = {
     'default': {
@@ -146,6 +148,9 @@ LOGOUT_URL = '/account/logout/'
 
 # Activate the Documents application
 DOCUMENTS_APP = True
+VIDEO_DOCUMENT_TYPES = [
+    'ogv', 'webm', 'mp4', '3gp'
+]
 ALLOWED_DOCUMENT_TYPES = [
     'doc', 'docx','gif', 'jpg', 'jpeg', 'ods', 'odt', 'pdf', 'png', 'ppt', 
     'rar', 'tif', 'tiff', 'txt', 'xls', 'xlsx', 'xml', 'zip', 
@@ -594,5 +599,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
-

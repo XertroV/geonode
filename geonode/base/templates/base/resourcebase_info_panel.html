@@ -12,7 +12,7 @@
   {% if resourcebase.abstract %}
     <li>
       <strong>{% trans "Abstract" %}:</strong>
-      {{ resourcebase.abstract|escape|urlize|linebreaks|safe|truncatechars:160 }}
+      {{ resourcebase.abstract|escape|urlize|linebreaks|safe }}
     </li>
   {% endif %}
 
