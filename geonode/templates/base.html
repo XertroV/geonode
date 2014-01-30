@@ -14,14 +14,14 @@
       {% else %}
       <link href="{{ STATIC_URL }}lib/css/assets.min.css" rel="stylesheet"/>
       {% endif %}
-      <link href="{{ STATIC_URL }}sopac.css" rel="stylesheet"/>
+      <link href="{{ STATIC_URL }}white.css" rel="stylesheet"/>
       {% block extra_head %}{% endblock %}
     {% endblock %}
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body class="{% block body_class %}{% endblock %}" id="sopacbody">
+  <body class="{% block body_class %}{% endblock %}" id="white-body">
     {% block header %}
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -157,7 +157,7 @@
 
         {% block middle %}
     {% announcements as site_wide_announcements %}
-    <div class="content-wrap" id="sopacmain-content">
+    <div class="content-wrap" id="white-main-content">
       {% if site_wide_announcements %}
       <div id="site_wide_announcements">
         {% for announcement in site_wide_announcements %}
@@ -191,7 +191,7 @@
     <footer class="footer">
       <div class="container">
           <div class="pull-left">
-              &copy 2013, Oceans and Islands Programme, SOPAC Division, SPC |
+              &copy 2014, SOME NAME |
               <a href="{% url "developer" %}">{% trans "OGC Web Services" %}</a> |
               <a href="{% url "about" %}">{% trans "About" %}</a> | {{ VERSION }}
           </div>
@@ -231,7 +231,7 @@
     {% endif %}
     <script src="{{ STATIC_URL }}geonode/js/utils/utils.js"></script>
 	<script src="{{ STATIC_URL }}geonode/js/base/base.js"></script>
-    <script src="{{ STATIC_URL }}sopac.js"></script>
+    <script src="{{ STATIC_URL }}white.js"></script>
     <script>
       $("#search").select2({
         minimumInputLength: 1,
