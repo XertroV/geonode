@@ -45,16 +45,16 @@
 }
 
 #white-body {
-	background-image: url(/static/img/bg.jpg);
+	/*background-image: url(/static/img/bg.jpg);
 	background-position: 50% 0%;
 	background-repeat: repeat-x;
-	background-color: rgb(12, 58, 109);
+	background-color: rgb(12, 58, 109);*/
 }
 
 #white-main-content {
-	background: #FFF;
+	/*background: #FFF;
 	padding-bottom: 30px;
-	margin-bottom: 0px;
+	margin-bottom: 0px;*/
 }
 
 .featured-map-carousel {
@@ -153,6 +153,6 @@ aside .well h2 {
 }
 
 .navbar .navbar-inner {
-	background-color: rgb(0, 116, 148);
-	background-image: linear-gradient(to bottom, rgb(0, 140, 179), rgb(0, 80, 102));
+	/*background-color: rgb(0, 116, 148);
+	background-image: linear-gradient(to bottom, rgb(0, 140, 179), rgb(0, 80, 102));*/
 }
